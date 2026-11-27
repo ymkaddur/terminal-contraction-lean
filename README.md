@@ -25,6 +25,29 @@ only the standard axioms `propext`, `Classical.choice` and `Quot.sound`. All of 
 | `[L-known]` | **Sign constraints contract the certificate.** For nonnegative defects the exact supremum is $\delta\lVert w^+\rVert\le\delta\lVert w\rVert$, with strict inequality for $w=(1,-1)$ | `sign_constrained_bound`, `sign_constrained_attained`, `norm2_posPart_le`, `sign_constraint_strict` |
 | `[L]` | **Size accounting.** A causal window of $L$ signed directions plus controls is smaller than a dense $128\times128$ binary64 state **iff** $L\le 63$; at $L=64$ it takes $132616$ B against $131072$ B. The forward generator certificate ($n\times m$) is smaller than an $n\times p$ state iff $m<p$, at every horizon | `window_breakeven`, `window_64_exceeds_dense`, `genCert_smaller` |
 
+## Subspaces closed under the evolution ([`InvariantErrorSubspaces.lean`](InvariantErrorSubspaces.lean))
+
+Same recursion with $E_0=D_0$ and arbitrary time-varying $F_j$. A family of subspaces $U_j$ is **closed** if
+$F_{j+1}(U_j)\subseteq U_{j+1}$. These results describe when the error, or a compressed state, can be tracked exactly
+by a certificate whose size **does not depend on the horizon**. That avoids the window break-even above.
+
+| Class | Statement | Scope | Lean name |
+|-------|-----------|-------|-----------|
+| `[L]` | **Exact closure ⟺ invariance**: $E_t\in U_t$ for all $t$ and **all** defect sequences with $D_j\in U_j$ iff the family is closed | Any field, any vector space, arbitrary (also singular) $F_j$. Excludes nothing: it is an exact characterization | `closed_iff` |
+| `[L]` | **Horizon-independent certificate**: if $F_{j+1}B_j=B_{j+1}T_{j+1}$ ($n\times m$ bases) and $D_j=B_jc_j$, then $E_t=B_tz_t$ with $z_{j+1}=T_{j+1}z_j+c_{j+1}$, and every reader $q$ is answered exactly by $(B_t^\top q)^\top z_t$ | Needs defects inside the moving subspace. The certificate has $n\,m+m$ numbers at every horizon | `error_eq_basis`, `reading_eq` |
+| `[L]` | **Rank-one writes**: $x\mapsto x-\varphi(x)\,k$ preserves $U$ iff $k\in U$ or $U\subseteq\ker\varphi$ (also for nonzero gates $a\,(I-k\varphi)$) | Covers the delta rule $I-\beta kk^\top$ ($\varphi=\beta\langle k,\cdot\rangle$). Any other $U$ is broken by the write | `rankOne_invariant_iff`, `gated_invariant_iff` |
+| `[L]` | Keys confined to $S$ make $S$ invariant under every write, and vectors annihilated by $\varphi$ are frozen | So only the $S$-component of the state evolves | `keys_in_span_invariant`, `frozen_of_annihilated` |
+| `refuted` | **Layerwise amplification does not compose multiplicatively**: for every $M>0$, two layers each amplify some direction by $M$, yet their composition is the identity | The product of per-layer gains is only an upper bound for the terminal sensitivity, and it can be loose by any factor | `cancellation_of_gains` |
+| `[L]` | **Size**: $n\,m+m<n^2$ iff $m\le n-1$, at every horizon | Compare with an independent-defect window, which is below an $n\times n$ binary64 state only for $L\le63$ when $n=128$ | `invariant_cert_smaller` |
+
+## Open
+
+- **Approximate closure.** If $F_{j+1}(U_j)$ leaves $U_{j+1}$ by at most $\eta_j$, is the drift bounded by
+  $\sum_j\eta_j\prod_{i>j}\lVert F_i\rVert$ and is that sharp? Is there a smallest closed family containing a
+  given reader-relevant subspace whose dimension stays bounded for structured key sequences?
+- **Minimal closed families.** Characterize the smallest closed family that contains given subspaces. Which
+  key sequences keep its dimension bounded uniformly in $t$?
+
 ## What it means
 
 The adjoint identity turns a certificate for one reader into a sum of *transported* local
