@@ -48,9 +48,15 @@ cannot reset it to zero.
 ## Limitations
 
 * Exact real arithmetic. No statement about floating point or rounding.
-* Fixed basis. Moving bases, state-dependent projectors and the growth of the residual
-  `E (1 - P)` under `F` are open: the residual obeys `Γ' = F Γ + u ((1 - P) v)ᵀ`, which mixes back
-  into the protected span unless the span is invariant under `F`.
+* For fixed readers, put `Γ = E (1 - P)` and assume `P B = B`. Then `Γ B = 0` and
+  `(F Γ) B = F (Γ B) = 0` for every left factor, including singular factors.
+  A common additive write cancels in the difference of two states. Different writes contribute
+  their difference evaluated on the next readers.
+* With a right factor and moving readers, the hidden term is `F Γ G Bnext`.
+  The factorization `G Bnext = B M` kills it. State-dependent controls require an additional
+  check that both states induce the same projected transition. If controls differ, even two
+  states with identical protected readings can acquire different readings.
+  See [bilateral closure](bilateral-closure.md) for the exact condition and side-reader costs.
 
 ## Verification
 

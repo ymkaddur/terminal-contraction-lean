@@ -1,6 +1,6 @@
 name = "terminal_contraction"
 version = "0.1.0"
-defaultTargets = ["TerminalContraction", "InvariantErrorSubspaces", "ActiveCertificates"]
+defaultTargets = ["TerminalContraction", "InvariantErrorSubspaces", "ActiveCertificates", "BilateralCertificates"]
 
 [leanOptions]
 autoImplicit = false
@@ -18,3 +18,6 @@ name = "InvariantErrorSubspaces"
 
 [[lean_lib]]
 name = "ActiveCertificates"
+
+[[lean_lib]]
+name = "BilateralCertificates"
