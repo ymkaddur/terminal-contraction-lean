@@ -15,7 +15,7 @@ while IFS= read -r f; do
   T=".lake/audit/$(basename "$f" .lean)_audit.lean"
   { cat "$f"; echo; grep -oE '^theorem [^ :]+' "$f" | awk -v ns="$NS" '{print "#print axioms " ns "." $2}'; } > "$T"
   # Lean wraps long axiom lists over several lines: join them before matching.
-  OUT="$("${LEAN[@]}" "$T" 2>&1 | sed -e ':a' -e 'N' -e '$!ba' -e 's/,\n */, /g')"
+  OUT="$("${LEAN[@]}" "$T" < /dev/null 2>&1 | sed -e ':a' -e 'N' -e '$!ba' -e 's/,\n */, /g')"
   if grep -qE '(^|: )(error|warning)' <<<"$OUT"; then
     echo "FAIL   $f"; grep -E 'error|warning' <<<"$OUT" | head -20; FAIL=1; continue
   fi
