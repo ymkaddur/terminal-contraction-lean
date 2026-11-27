@@ -40,6 +40,17 @@ by a certificate whose size **does not depend on the horizon**. That avoids the 
 | `refuted` | **Layerwise amplification does not compose multiplicatively**: for every $M>0$, two layers each amplify some direction by $M$, yet their composition is the identity | The product of per-layer gains is only an upper bound for the terminal sensitivity, and it can be loose by any factor | `cancellation_of_gains` |
 | `[L]` | **Size**: $n\,m+m<n^2$ iff $m\le n-1$, at every horizon | Compare with an independent-defect window, which is below an $n\times n$ binary64 state only for $L\le63$ when $n=128$ | `invariant_cert_smaller` |
 
+## Active certificates ([`ActiveCertificates.lean`](ActiveCertificates.lean))
+
+| Class | Statement | Lean name |
+|-------|-----------|-----------|
+| `[L-known]` | active correction `S̃ = Ŝ + E P`, `P = B(BᵀB)⁻¹Bᵀ`: exact error `E (1 - P)`, exact on `span B` | `correction_error`, `corrected_exact_on_basis` |
+| `[L-known]` | `P² = P`, `P B = B` | `projector_mul_self`, `projector_mul_basis` |
+| `[L-known]` | closure `(F S + u vᵀ) B = F (S B) + u (vᵀ B)`; basis-change split | `projected_closure`, `basis_change_split` |
+| refuted | "a zero certificate on `B` implies zero error for every reader" (rank-one defect) | `discarded_dependency_returns` |
+
+Details: [docs/active-certificates.md](docs/active-certificates.md).
+
 ## Open
 
 - **Approximate closure.** If $F_{j+1}(U_j)$ leaves $U_{j+1}$ by at most $\eta_j$, is the drift bounded by
