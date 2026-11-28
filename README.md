@@ -8,8 +8,7 @@ $$E_j = F_j\,E_{j-1} + D_j,$$
 with arbitrary transitions $F_j$ (singular or zero allowed) and local defects $D_j$.
 
 Every statement is proved by the Lean kernel with no `sorry`, no warnings, and
-only the standard axioms `propext`, `Classical.choice` and `Quot.sound`. All of them are in
-[`TerminalContraction.lean`](TerminalContraction.lean).
+only the standard axioms `propext`, `Classical.choice` and `Quot.sound`.
 
 **Classes.** `[L]`: new statement or construction, proved in Lean. `[L-known]`: Lean formalization of a known result. `refuted`: constructive counterexample in Lean. `example`: an instance that shows a phenomenon. All of them are kernel-checked: no `sorry`, no warnings, axioms within `propext`, `Classical.choice`, `Quot.sound`.
 
@@ -39,6 +38,28 @@ by a certificate whose size **does not depend on the horizon**. That avoids the 
 | `[L]` | Keys confined to $S$ make $S$ invariant under every write, and vectors annihilated by $\varphi$ are frozen | So only the $S$-component of the state evolves | `keys_in_span_invariant`, `frozen_of_annihilated` |
 | `refuted` | **Layerwise amplification does not compose multiplicatively**: for every $M>0$, two layers each amplify some direction by $M$, yet their composition is the identity | The product of per-layer gains is only an upper bound for the terminal sensitivity, and it can be loose by any factor | `cancellation_of_gains` |
 | `[L]` | **Size**: $n\,m+m<n^2$ iff $m\le n-1$, at every horizon | Compare with an independent-defect window, which is below an $n\times n$ binary64 state only for $L\le63$ when $n=128$ | `invariant_cert_smaller` |
+
+## Squared energy of a driven rank-one step
+
+In a real inner product space, put
+
+$$x' = a x + b(v-a\langle k,x\rangle)k,\qquad d=2-b\|k\|^2.$$
+
+Expanding the squared norm and completing a square gives the identity
+
+$$d(\|x'\|^2-a^2\|x\|^2)
+=bv^2-b\bigl(da\langle k,x\rangle-(1-b\|k\|^2)v\bigr)^2.$$
+
+For $b\ge0$ and $d>0$, the scalar recurrence $E'=a^2 E+bv^2/d$ therefore preserves
+$\|x\|^2\le E$. When several trajectories share $a,b,k$, a fixed linear combination
+of them follows the same step with the combined drive. A target and its reconstruction
+then differ by a trajectory driven by the scalar input residual. For any terminal
+reader $q$, the resulting absolute error is bounded by $\|q\|\sqrt E$.
+
+The strict condition on $d$ matters. For $a=k=v=1$ and $b=2$ in $\mathbb R$,
+the energy increment $(-x+2)^2-x^2$ exceeds any prescribed constant as $x$
+decreases. These statements and the finite-history induction are proved in
+[RankOneSupply.lean](RankOneSupply.lean).
 
 ## Open
 
