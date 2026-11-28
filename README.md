@@ -61,6 +61,24 @@ the energy increment $(-x+2)^2-x^2$ exceeds any prescribed constant as $x$
 decreases. These statements and the finite-history induction are proved in
 [RankOneSupply.lean](RankOneSupply.lean).
 
+## Growing dictionaries
+
+Suppose the active finite index set grows from $A$ to $B$. Keep the previous
+states for $i\in A$ and initialize the states for $i\in B\setminus A$ to zero.
+With fixed synthesis weights $c_i$ this preserves the reconstruction at the cut.
+The new indices can contribute to the very next input. For true drive $v$ and
+channel drives $z_i$, the residual supply in that step is
+
+$$\frac{b}{2-b\|k\|^2}\left(v-\sum_{i\in B}c_i z_i\right)^2.$$
+
+It adds to the previous squared-error bound multiplied by $a^2$. If the new
+directions reproduce the present drive exactly, the old debt still propagates.
+A complete restart can use any certified bound on the squared norm of the true
+state at the cut. The module proves these statements by applying the
+rank-one supply estimate to the reconstruction error. A scalar example with
+identity transition witnesses the surviving prefix error.
+[GrowingDriveDictionary.lean](GrowingDriveDictionary.lean)
+
 ## Open
 
 - **Approximate closure.** If $F_{j+1}(U_j)$ leaves $U_{j+1}$ by at most $\eta_j$, is the drift bounded by
