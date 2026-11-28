@@ -7,9 +7,9 @@ $$E_j = F_j\,E_{j-1} + D_j,$$
 
 with arbitrary transitions $F_j$ (singular or zero allowed) and local defects $D_j$.
 
-Every statement is proved by the Lean kernel with no `sorry`, no warnings, and
-only the standard axioms `propext`, `Classical.choice` and `Quot.sound`. All of them are in
-[`TerminalContraction.lean`](TerminalContraction.lean).
+Every theorem is proved by the Lean kernel with no `sorry`, no warnings, and
+only the standard axioms `propext`, `Classical.choice` and `Quot.sound`. The terminal
+recurrence is developed in [`TerminalContraction.lean`](TerminalContraction.lean).
 
 **Classes.** `[L]`: new statement or construction, proved in Lean. `[L-known]`: Lean formalization of a known result. `refuted`: constructive counterexample in Lean. `example`: an instance that shows a phenomenon. All of them are kernel-checked: no `sorry`, no warnings, axioms within `propext`, `Classical.choice`, `Quot.sound`.
 
@@ -24,6 +24,15 @@ only the standard axioms `propext`, `Classical.choice` and `Quot.sound`. All of 
 | `refuted` | **Refutation: the independent relaxation can be arbitrarily loose.** With cancelling generators the exact supremum is $0$, while the relaxation gives $2r$ | `cancellation_example` |
 | `[L-known]` | **Sign constraints contract the certificate.** For nonnegative defects the exact supremum is $\delta\lVert w^+\rVert\le\delta\lVert w\rVert$, with strict inequality for $w=(1,-1)$ | `sign_constrained_bound`, `sign_constrained_attained`, `norm2_posPart_le`, `sign_constraint_strict` |
 | `[L]` | **Size accounting.** A causal window of $L$ signed directions plus controls is smaller than a dense $128\times128$ binary64 state **iff** $L\le 63$; at $L=64$ it takes $132616$ B against $131072$ B. The forward generator certificate ($n\times m$) is smaller than an $n\times p$ state iff $m<p$, at every horizon | `window_breakeven`, `window_64_exceeds_dense`, `genCert_smaller` |
+
+## Discounted Gram budgets
+
+[`FastGramBudget.lean`](FastGramBudget.lean) proves that a chronological
+block acts by its product gain and a sum weighted by suffix gains. The exact
+weighted squared residuals reduce to a feature Gram, cross moments and a
+target diagonal, for any decoder selected at the end. Separate theorems
+cover signed roundoff allowances and the final composition of a reading
+certificate. See [the contracts and verification instructions](BlockGramBudget.md).
 
 ## Subspaces closed under the evolution ([`InvariantErrorSubspaces.lean`](InvariantErrorSubspaces.lean))
 
