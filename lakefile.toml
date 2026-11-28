@@ -1,6 +1,6 @@
 name = "terminal_contraction"
 version = "0.1.0"
-defaultTargets = ["TerminalContraction", "InvariantErrorSubspaces", "ActiveCertificates", "BilateralCertificates"]
+defaultTargets = ["TerminalContraction", "InvariantErrorSubspaces", "ActiveCertificates", "BilateralCertificates", "FiberMessagePins"]
 
 [leanOptions]
 autoImplicit = false
@@ -21,3 +21,6 @@ name = "ActiveCertificates"
 
 [[lean_lib]]
 name = "BilateralCertificates"
+
+[[lean_lib]]
+name = "FiberMessagePins"
