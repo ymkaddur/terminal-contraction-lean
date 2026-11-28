@@ -69,3 +69,25 @@ scripts/audit.sh            # compiles each file and checks sorry, warnings and 
 ```
 
 Pin: `leanprover/lean4:v4.33.1`, Mathlib `0df444a` (v4.33.1).
+
+## Recovery of late linear readers
+
+[`LateReaderRecovery.lean`](LateReaderRecovery.lean) models a history of linear
+actions with additive writes. A checkpoint supplies the input to the remaining
+history. Any per-step simulation through a linear projection preserves the
+projected checkpoint result. Evaluating a single column of a left affine matrix
+action is one such simulation.
+
+| Result | Lean declaration |
+| --- | --- |
+| Splitting at a valid projected checkpoint gives exact recovery | `checkpoint_recovery`, `matrix_column_step` |
+| A zero-start suffix gives every exact read precisely when the transported prefix is annihilated | `suffix_only_exact_iff` |
+| A scalar recurrence bounds the prefix norm | `replay_norm_le_envelope` |
+| Initial and numerical defects propagate under the same gain | `replayWithDebt_sound`, `late_read_error_le` |
+| The rank-one linear action has gain at most the absolute gate under the stated norm condition | `rank_one_norm_le` |
+
+The finite-history results include empty prefixes and suffixes and actions with
+nontrivial kernels. A numerical implementation must supply local error bounds
+for the arithmetic it actually performs. Exact algebraic recovery presupposes
+the declared checkpoint and step semantics. Storage and performance require
+separate accounting.
