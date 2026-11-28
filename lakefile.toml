@@ -1,6 +1,6 @@
 name = "terminal_contraction"
 version = "0.1.0"
-defaultTargets = ["TerminalContraction", "InvariantErrorSubspaces"]
+defaultTargets = ["TerminalContraction", "InvariantErrorSubspaces", "LateReaderRecovery"]
 
 [leanOptions]
 autoImplicit = false
@@ -15,3 +15,6 @@ name = "TerminalContraction"
 
 [[lean_lib]]
 name = "InvariantErrorSubspaces"
+
+[[lean_lib]]
+name = "LateReaderRecovery"
